@@ -1,1 +1,954 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 Happy Birthday 💝</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee, #c2e9fb);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            color: #fff;
+        }
 
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 25%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 75%; }
+            100% { background-position: 0% 50%; }
+  }
+
+        .glass-container {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 25px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2),
+                        inset 0 0 30px rgba(255, 255, 255, 0.3);
+            padding: 3rem;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+            margin-bottom: 2rem;
+        }
+
+        .glass-container:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                to right, 
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: skewX(-25deg);
+            transition: all 0.7s ease;
+        }
+
+        .glass-container:hover:before {
+            animation: shine 1.5s;
+      }
+        @keyframes shine {
+            100% {
+                left: 125%;
+            }
+        }
+
+        .message {
+            font-family: 'Dancing Script', cursive,sans-serif;
+            font-size: 2.2rem;
+            color: #ff3d7f;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.7);
+            opacity: 1;
+            transition: opacity 0.5s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0;
+            letter-spacing: normal;
+           
+        }
+
+        .hidden {
+            opacity: 0;
+            position: absolute;
+        }
+
+        .enter-button {
+            margin-top: 2rem;
+            background: linear-gradient(45deg, #ff3d7f, #ff758c);
+            color: white;
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(255, 61, 127, 0.6),
+                        0 0 15px rgba(255, 61, 127, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            font-size: 1.2rem;
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }.enter-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 7px 25px rgba(255, 61, 127, 0.8);
+        }
+
+        .enter-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                rgba(255,255,255,0.1), 
+                rgba(255,255,255,0) 60%);
+            transform: rotate(30deg);
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+
+        .floating {animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 20;
+        }
+
+        .decoration {
+            position: absolute;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            top: -100px;
+            pointer-events: none;
+            animation: confettiFall 8s ease-in-out infinite;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .bubble {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1));
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3),
+                        inset 0 0 8px rgba(255, 255, 255, 0.6);
+            animation: bubbleFloat 15s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes bubbleFloat {
+            0% { transform: translateY(100vh) scale(0.3); opacity: 0.3; }
+            20% { opacity: 0.7; }
+            80% { opacity: 0.7; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
+        }
+
+        .side-decoration {
+            position: absolute;
+            height: 100vh;
+            width: 100px;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            padding: 2rem 0;
+            z-index: 1;
+        }
+
+        .side-decoration.left {
+            left: 0;
+          }        .side-decoration.right {
+            right: 0;
+        }
+
+        .side-item {
+            font-size: 2.2rem;
+            animation: sideBounce 3s ease-in-out infinite;
+            animation-delay: calc(var(--delay) * 1s);
+            filter: drop-shadow(0 3px 8px rgba(0,0,0,0.2));
+        }@keyframes sideBounce {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            50% { transform: translateX(15px) rotate(15deg); }
+        }
+
+        .gif-container {
+            margin-top: 2rem;
+            width: 90%;
+            max-width: 380px;
+            height: 220px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 61, 127, 0.4),
+                        inset 0 0 15px rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            position: relative;
+            z-index: 5;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .gif-placeholder {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 18px;
+        }
+
+        .top-emoji {
+            position: absolute;
+            top: 20px;
+            font-size: 2.5rem;
+            animation: topEmojiFloat 4s ease-in-out infinite;
+            z-index: 1;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2));
+        }
+
+        @keyframes topEmojiFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(20deg); }
+        }
+
+        .glow {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,61,127,0.6) 0%, rgba(255,61,127,0) 70%);
+            pointer-events: none;
+            z-index: 1;
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.2); opacity: 0.4; }
+        }
+
+        .ribbon {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 15px solid rgba(255, 255, 255, 0.15);
+            border-top: 15px solid #ff3d7f;
+            border-right: 15px solid transparent;
+            transform: rotate(-45deg);
+            animation: ribbonSpin 8s linear infinite;
+                                                                                          }        @keyframes ribbonSpin {
+            0% { transform: rotate(-45deg); }
+            100% { transform: rotate(315deg); }
+        }
+
+        .message-container {
+            position: relative;
+        }
+        
+        a{
+         text-decoration: none;
+  
+        }
+        
+        .message-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .dancing-text {
+            display: inline-block;
+            animation: textDance 1s ease-in-out infinite;
+            animation-delay: calc(var(--char-index) * 0.05s);
+        }
+
+        @keyframes textDance {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .birthday-crown {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5rem;
+            filter: drop-shadow(0 5px 10px rgba(255, 215, 0, 0.5));
+        }
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .side-decoration {
+                width: 50px;
+            }
+            
+            .side-item {
+                font-size: 1.8rem;
+            }
+            
+            .glass-container {
+                padding: 2rem;
+            }
+            
+            .message {
+                font-size: 1.8rem;
+            }
+            
+            .gif-container {
+                height: 180px;
+            }
+            
+            .top-emoji {
+                font-size: 2rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .side-decoration {
+                width: 30px;
+            }
+            
+            .side-item {
+                font-size: 1.5rem;
+            }
+            
+            .message {
+                font-size: 1.6rem;
+            }
+
+            .glass-container {
+                padding: 1.5rem;
+            }
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="px-4" data-new-gr-c-s-check-loaded="14.1244.0" data-gr-ext-installed="">
+    <!-- Canvas for particles -->
+    <div id="canvas-container"><canvas width="1920" height="1031" style="display: block; width: 1920px; height: 1031px;"></canvas></div>
+
+    <!-- Top floating emojis -->
+    <span class="top-emoji" style="left: 15%;">✨</span>
+    <span class="top-emoji" style="left: 35%;">🎂</span>
+    <span class="top-emoji" style="left: 65%;">🎀</span>
+    <span class="top-emoji" style="left: 85%;">🌸</span>
+
+    <!-- Glowing spots -->
+    <div class="glow" style="top: 15%; left: 20%;"></div>
+    <div class="glow" style="top: 75%; left: 80%;"></div>
+    <div class="glow" style="top: 60%; left: 30%;"></div>
+
+    <!-- Ribbons -->
+    <div class="ribbon" style="top: 10%; left: 70%;"></div>
+    <div class="ribbon" style="top: 70%; left: 20%;"></div>
+
+    <!-- Side decorations - left -->
+    <div class="side-decoration left">
+        <span class="side-item" style="--delay: 0.2;">🌈</span>
+        <span class="side-item" style="--delay: 0.5;">💖</span>
+        <span class="side-item" style="--delay: 0.8;">🎁</span>
+        <span class="side-item" style="--delay: 1.1;">✨</span>
+        <span class="side-item" style="--delay: 1.4;">🦄</span>
+    </div>
+
+    <!-- Side decorations - right -->
+    <div class="side-decoration right">
+        <span class="side-item" style="--delay: 0.3;">🌟</span>
+        <span class="side-item" style="--delay: 0.6;">🍰</span>
+        <span class="side-item" style="--delay: 0.9;">🎀</span>
+        <span class="side-item" style="--delay: 1.2;">🌸</span>
+        <span class="side-item" style="--delay: 1.5;">💝</span>
+    </div>
+            <!-- Decorative elements -->
+    <div id="decorations"><div class="bubble" style="width: 100.931px; height: 100.931px; left: 94.4667%; animation-duration: 11.4779s; animation-delay: 7.35732s;"></div><div class="bubble" style="width: 44.3923px; height: 44.3923px; left: 46.0602%; animation-duration: 17.4278s; animation-delay: 6.55666s;"></div><div class="bubble" style="width: 42.1913px; height: 42.1913px; left: 74.4582%; animation-duration: 17.3516s; animation-delay: 1.6879s;"></div><div class="bubble" style="width: 99.2394px; height: 99.2394px; left: 66.3183%; animation-duration: 14.9868s; animation-delay: 15.9087s;"></div><div class="bubble" style="width: 32.7515px; height: 32.7515px; left: 94.3315%; animation-duration: 15.2771s; animation-delay: 18.0847s;"></div><div class="bubble" style="width: 30.8245px; height: 30.8245px; left: 68.6046%; animation-duration: 17.3184s; animation-delay: 19.1771s;"></div><div class="bubble" style="width: 44.632px; height: 44.632px; left: 86.7366%; animation-duration: 17.9729s; animation-delay: 11.0116s;"></div><div class="bubble" style="width: 90.4151px; height: 90.4151px; left: 2.59744%; animation-duration: 10.409s; animation-delay: 6.80112s;"></div><div class="bubble" style="width: 42.1172px; height: 42.1172px; left: 69.042%; animation-duration: 15.3559s; animation-delay: 13.3489s;"></div><div class="bubble" style="width: 79.803px; height: 79.803px; left: 51.025%; animation-duration: 16.9064s; animation-delay: 4.37904s;"></div><div class="bubble" style="width: 109.742px; height: 109.742px; left: 36.9093%; animation-duration: 19.1099s; animation-delay: 10.0307s;"></div><div class="bubble" style="width: 108.585px; height: 108.585px; left: 67.8702%; animation-duration: 17.9953s; animation-delay: 16.8046s;"></div><div class="bubble" style="width: 68.2556px; height: 68.2556px; left: 26.1015%; animation-duration: 18.4342s; animation-delay: 4.90422s;"></div><div class="bubble" style="width: 75.8169px; height: 75.8169px; left: 72.432%; animation-duration: 18.3764s; animation-delay: 14.96s;"></div><div class="bubble" style="width: 50.3875px; height: 50.3875px; left: 23.2601%; animation-duration: 17.3275s; animation-delay: 4.09273s;"></div><div class="bubble" style="width: 87.7565px; height: 87.7565px; left: 52.628%; animation-duration: 12.1666s; animation-delay: 4.16378s;"></div><div class="bubble" style="width: 67.0854px; height: 67.0854px; left: 62.2004%; animation-duration: 16.1194s; animation-delay: 11.8746s;"></div><div class="bubble" style="width: 85.0714px; height: 85.0714px; left: 11.834%; animation-duration: 13.4009s; animation-delay: 12.759s;"></div><div class="bubble" style="width: 105.861px; height: 105.861px; left: 44.7823%; animation-duration: 11.4842s; animation-delay: 3.2842s;"></div><div class="bubble" style="width: 81.2579px; height: 81.2579px; left: 35.3185%; animation-duration: 12.9916s; animation-delay: 8.20353s;"></div><div class="bubble" style="width: 107.015px; height: 107.015px; left: 73.9893%; animation-duration: 13.4192s; animation-delay: 9.28372s;"></div><div class="bubble" style="width: 79.8622px; height: 79.8622px; left: 72.2091%; animation-duration: 12.5041s; animation-delay: 19.8521s;"></div><div class="bubble" style="width: 80.2591px; height: 80.2591px; left: 21.9998%; animation-duration: 10.5463s; animation-delay: 15.0095s;"></div><div class="bubble" style="width: 97.477px; height: 97.477px; left: 59.4738%; animation-duration: 13.3138s; animation-delay: 6.534s;"></div><div class="bubble" style="width: 36.7359px; height: 36.7359px; left: 47.0688%; animation-duration: 13.8566s; animation-delay: 12.8508s;"></div><div class="confetti" style="width: 13.763px; height: 13.763px; left: 79.7799%; background-color: rgb(100, 243, 140); animation-duration: 9.62153s; animation-delay: 4.80636s;"></div><div class="confetti" style="width: 7.45914px; height: 7.45914px; left: 48.2725%; background-color: rgb(250, 208, 196); animation-duration: 5.27375s; animation-delay: 0.53688s;"></div><div class="confetti" style="width: 0px; height: 0px; left: 38.5141%; background-color: transparent; animation-duration: 6.67419s; animation-delay: 4.32821s; border-left: 5.97876px solid transparent; border-right: 5.97876px solid transparent; border-bottom: 11.9575px solid rgb(250, 208, 196);"></div><div class="confetti" style="width: 0px; height: 0px; left: 87.8234%; background-color: transparent; animation-duration: 7.59874s; animation-delay: 7.81588s; border-left: 7.78962px solid transparent; border-right: 7.78962px solid transparent; border-bottom: 15.5792px solid rgb(251, 194, 235);"></div><div class="confetti" style="width: 0px; height: 0px; left: 19.1375%; background-color: transparent; animation-duration: 7.51482s; animation-delay: 3.58369s; border-left: 6.91509px solid transparent; border-right: 6.91509px solid transparent; border-bottom: 13.8302px solid rgb(251, 194, 235);"></div><div class="confetti" style="width: 14.4423px; height: 14.4423px; left: 8.14338%; background-color: rgb(251, 194, 235); animation-duration: 9.16642s; animation-delay: 4.63901s; border-radius: 50%;"></div><div class="confetti" style="width: 14.5379px; height: 14.5379px; left: 53.0607%; background-color: rgb(255, 154, 158); animation-duration: 5.35287s; animation-delay: 5.57886s;"></div><div class="confetti" style="width: 19.0062px; height: 19.0062px; left: 97.553%; background-color: rgb(255, 223, 107); animation-duration: 5.71642s; animation-delay: 6.58932s;"></div><div class="confetti" style="width: 0px; height: 0px; left: 7.92453%; background-color: transparent; animation-duration: 7.08992s; animation-delay: 1.79544s; border-left: 6.94659px solid transparent; border-right: 6.94659px solid transparent; border-bottom: 13.8932px solid rgb(255, 154, 158);"></div><div class="confetti" style="width: 14.9242px; height: 14.9242px; left: 90.8704%; background-color: rgb(250, 208, 196); animation-duration: 9.01307s; animation-delay: 6.32645s; border-radius: 50%;"></div><div class="confetti" style="width: 0px; height: 0px; left: 69.6241%; background-color: transparent; animation-duration: 9.56142s; animation-delay: 2.06573s; border-left: 2.65715px solid transparent; border-right: 2.65715px solid transparent; border-bottom: 5.3143px solid rgb(251, 194, 235);"></div><div class="confetti" style="width: 18.0784px; height: 18.0784px; left: 44.6524%; background-color: rgb(194, 233, 251); animation-duration: 5.79193s; animation-delay: 5.10709s;"></div><div class="confetti" style="width: 0px; height: 0px; left: 96.7782%; background-color: transparent; animation-duration: 9.92794s; animation-delay: 2.00821s; border-left: 9.1645px solid transparent; border-right: 9.1645px solid transparent; border-bottom: 18.329px solid rgb(255, 61, 127);"></div><div class="confetti" style="width: 0px; height: 0px; left: 39.803%; background-color: transparent; animation-duration: 9.46551s; animation-delay: 3.09525s; border-left: 9.09598px solid transparent; border-right: 9.09598px solid transparent; border-bottom: 18.192px solid rgb(100, 243, 140);"></div><div class="confetti" style="width: 13.9386px; height: 13.9386px; left: 2.31506%; background-color: rgb(255, 154, 158); animation-duration: 7.56757s; animation-delay: 5.65238s;"></div><div class="confetti" style="width: 15.9561px; height: 15.9561px; left: 70.7529%; background-color: rgb(100, 243, 140); animation-duration: 5.06803s; animation-delay: 4.99455s;"></div><div class="confetti" style="width: 0px; height: 0px; left: 51.6519%; background-color: transparent; animation-duration: 9.61284s; animation-delay: 1.67965s; border-left: 4.56956px solid transparent; border-right: 4.56956px solid transparent; border-bottom: 9.13913px solid rgb(251, 194, 235);"></div><div class="confetti" style="width: 0px; height: 0px; left: 88.3227%; background-color: transparent; animation-duration: 8.86804s; animation-delay: 0.710209s; border-left: 8.92585px solid transparent; border-right: 8.92585px solid transparent; border-bottom: 17.8517px solid rgb(255, 154, 158);"></div><div class="confetti" style="width: 15.9507px; height: 15.9507px; left: 13.8637%; background-color: rgb(255, 61, 127); animation-duration: 6.01275s; animation-delay: 2.5752s;"></div><div class="confetti" style="width: 16.6832px; height: 16.6832px; left: 50.4275%; background-color: rgb(255, 154, 158); animation-duration: 9.91068s; animation-delay: 0.807876s; border-radius: 50%;"></div><div class="confetti" style="width: 9.57623px; height: 9.57623px; left: 4.74162%; background-color: rgb(251, 194, 235); animation-duration: 8.39288s; animation-delay: 0.793228s;"></div><div class="confetti" style="width: 13.8966px; height: 13.8966px; left: 61.0881%; background-color: rgb(100, 243, 140); animation-duration: 5.7172s; animation-delay: 5.96717s; border-radius: 50%;"></div><div class="confetti" style="width: 11.9036px; height: 11.9036px; left: 35.0066%; background-color: rgb(251, 194, 235); animation-duration: 6.10661s; animation-delay: 7.61345s;"></div><div class="confetti" style="width: 15.8802px; height: 15.8802px; left: 16.0574%; background-color: rgb(100, 243, 140); animation-duration: 9.80928s; animation-delay: 2.50489s; border-radius: 50%;"></div><div class="confetti" style="width: 0px; height: 0px; left: 15.3346%; background-color: transparent; animation-duration: 9.33652s; animation-delay: 5.49381s; border-left: 4.6421px solid transparent; border-right: 4.6421px solid transparent; border-bottom: 9.28421px solid rgb(255, 61, 127);"></div><div class="confetti" style="width: 0px; height: 0px; left: 61.2329%; background-color: transparent; animation-duration: 6.50815s; animation-delay: 3.84649s; border-left: 2.71361px solid transparent; border-right: 2.71361px solid transparent; border-bottom: 5.42723px solid rgb(255, 61, 127);"></div><div class="confetti" style="width: 14.0484px; height: 14.0484px; left: 56.9099%; background-color: rgb(166, 193, 238); animation-duration: 9.0548s; animation-delay: 3.34602s;"></div><div class="confetti" style="width: 0px; height: 0px; left: 83.5088%; background-color: transparent; animation-duration: 7.14427s; animation-delay: 6.88923s; border-left: 2.65891px solid transparent; border-right: 2.65891px solid transparent; border-bottom: 5.31783px solid rgb(255, 154, 158);"></div><div class="confetti" style="width: 16.0514px; height: 16.0514px; left: 94.946%; background-color: rgb(255, 61, 127); animation-duration: 5.43831s; animation-delay: 5.31509s;"></div><div class="confetti" style="width: 0px; height: 0px; left: 59.255%; background-color: transparent; animation-duration: 5.19773s; animation-delay: 5.17336s; border-left: 5.71047px solid transparent; border-right: 5.71047px solid transparent; border-bottom: 11.4209px solid rgb(251, 194, 235);"></div><div class="confetti" style="width: 17.8255px; height: 17.8255px; left: 81.6229%; background-color: rgb(250, 208, 196); animation-duration: 6.71771s; animation-delay: 0.477968s; border-radius: 50%;"></div><div class="confetti" style="width: 7.12198px; height: 7.12198px; left: 50.9268%; background-color: rgb(255, 154, 158); animation-duration: 6.74694s; animation-delay: 2.56412s; border-radius: 50%;"></div><div class="confetti" style="width: 16.6679px; height: 16.6679px; left: 62.2704%; background-color: rgb(194, 233, 251); animation-duration: 9.47969s; animation-delay: 6.29867s; border-radius: 50%;"></div><div class="confetti" style="width: 19.1201px; height: 19.1201px; left: 1.47959%; background-color: rgb(166, 193, 238); animation-duration: 9.88356s; animation-delay: 1.47987s; border-radius: 50%;"></div><div class="confetti" style="width: 12.859px; height: 12.859px; left: 21.9806%; background-color: rgb(251, 194, 235); animation-duration: 5.59385s; animation-delay: 0.113552s;"></div><div class="confetti" style="width: 0px; height: 0px; left: 40.2137%; background-color: transparent; animation-duration: 8.76952s; animation-delay: 6.54793s; border-left: 3.91365px solid transparent; border-right: 3.91365px solid transparent; border-bottom: 7.8273px solid rgb(255, 223, 107);"></div><div class="confetti" style="width: 5.4834px; height: 5.4834px; left: 19.4998%; background-color: rgb(255, 223, 107); animation-duration: 9.57036s; animation-delay: 5.24649s; border-radius: 50%;"></div><div class="confetti" style="width: 11.3657px; height: 11.3657px; left: 0.509909%; background-color: rgb(250, 208, 196); animation-duration: 8.93253s; animation-delay: 3.59033s; border-radius: 50%;"></div><div class="confetti" style="width: 0px; height: 0px; left: 44.7332%; background-color: transparent; animation-duration: 6.796s; animation-delay: 5.37056s; border-left: 7.35569px solid transparent; border-right: 7.35569px solid transparent; border-bottom: 14.7114px solid rgb(250, 208, 196);"></div><div class="confetti" style="width: 0px; height: 0px; left: 20.3935%; background-color: transparent; animation-duration: 9.23326s; animation-delay: 2.4008s; border-left: 5.10854px solid transparent; border-right: 5.10854px solid transparent; border-bottom: 10.2171px solid rgb(100, 243, 140);"></div><div class="confetti" style="width: 10.9153px; height: 10.9153px; left: 50.192%; background-color: rgb(255, 223, 107); animation-duration: 9.38237s; animation-delay: 2.0364s; border-radius: 50%;"></div><div class="confetti" style="width: 0px; height: 0px; left: 91.3509%; background-color: transparent; animation-duration: 8.49512s; animation-delay: 5.23622s; border-left: 7.11982px solid transparent; border-right: 7.11982px solid transparent; border-bottom: 14.2396px solid rgb(194, 233, 251);"></div><div class="confetti" style="width: 9.10354px; height: 9.10354px; left: 61.3399%; background-color: rgb(166, 193, 238); animation-duration: 5.5416s; animation-delay: 5.94436s;"></div><div class="confetti" style="width: 0px; height: 0px; left: 13.1306%; background-color: transparent; animation-duration: 7.11362s; animation-delay: 0.544042s; border-left: 8.73122px solid transparent; border-right: 8.73122px solid transparent; border-bottom: 17.4624px solid rgb(251, 194, 235);"></div><div class="confetti" style="width: 10.9946px; height: 10.9946px; left: 28.29%; background-color: rgb(166, 193, 238); animation-duration: 9.88637s; animation-delay: 3.87372s; border-radius: 50%;"></div><div class="confetti" style="width: 16.5502px; height: 16.5502px; left: 42.7247%; background-color: rgb(255, 223, 107); animation-duration: 6.80084s; animation-delay: 1.69699s;"></div><div class="confetti" style="width: 10.6257px; height: 10.6257px; left: 99.3442%; background-color: rgb(166, 193, 238); animation-duration: 8.31546s; animation-delay: 7.28138s;"></div><div class="confetti" style="width: 8.03598px; height: 8.03598px; left: 67.9034%; background-color: rgb(255, 154, 158); animation-duration: 6.39017s; animation-delay: 6.05312s; border-radius: 50%;"></div><div class="confetti" style="width: 0px; height: 0px; left: 0.33168%; background-color: transparent; animation-duration: 6.49318s; animation-delay: 3.52166s; border-left: 7.4795px solid transparent; border-right: 7.4795px solid transparent; border-bottom: 14.959px solid rgb(100, 243, 140);"></div><div class="confetti" style="width: 7.25218px; height: 7.25218px; left: 47.6681%; background-color: rgb(100, 243, 140); animation-duration: 7.75942s; animation-delay: 0.662855s;"></div></div>
+          <!-- Main container -->
+    <div class="glass-container floating" id="messageContainer">
+        <div class="birthday-crown">👑</div>
+        <div class="message-container">
+            <p class="message" id="initialMessage">✨ I have something special for you ✨</p>
+            <p class="message hidden" id="secondMessage">✨ You know it's your 18th birthday, so celebrate first. ✨</p>
+        </div>
+    </div>
+
+    <button class="enter-button" id="enterButton" style="translate: none; rotate: none; scale: none; transform: translate(0px, 20px); opacity: 0;"
+
+       
+     >
+        
+        <span>✨</span>
+        <span >
+            <a href="second work /index2.html">
+            Celebrate</span>
+            
+        <span>💖</span>
+    </button>
+
+    <!-- GIF container -->
+    <div class="gif-container" id="gifContainer" style="translate: none; rotate: none; scale: none; transform: translate(0px, 20px); opacity: 0;">
+        <img src="./gif1.gif" alt="Birthday celebration" class="gif-placeholder" id="gifPlaceholder">
+    </div>
+
+    <script>
+        // Create decorative elements
+        function createDecorations() {
+            const decorationsContainer = document.getElementById('decorations');
+            
+            // Create floating bubbles
+            for (let i = 0; i < 25; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                // Random properties
+                const size = Math.random() * 80 + 30;
+                const posX = Math.random() * 100;
+                const delay = Math.random() * 20;
+                const duration = Math.random() * 10 + 10;
+                
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${posX}%`;
+                bubble.style.animationDuration = `${duration}s`;
+                bubble.style.animationDelay = `${delay}s`;
+                
+                decorationsContainer.appendChild(bubble);
+            }
+
+            // Create confetti
+            const colors = ['#ff3d7f', '#ff9a9e', '#fad0c4', '#fbc2eb', '#a6c1ee', '#c2e9fb', '#ffdf6b', '#64f38c'];
+            const shapes = ['circle', 'square', 'triangle'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = Math.random() * 15 + 5;
+                const posX = Math.random() * 100;
+                const delay = Math.random() * 8;
+                const duration = Math.random() * 5 + 5;
+                
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.left = `${posX}%`;
+                confetti.style.backgroundColor = color;
+                confetti.style.animationDuration = `${duration}s`;
+                confetti.style.animationDelay = `${delay}s`;
+                
+                if (shape === 'circle') {
+                    confetti.style.borderRadius = '50%';
+                } else if (shape === 'triangle') {
+                    confetti.style.width = '0';
+                    confetti.style.height = '0';
+                    confetti.style.borderLeft = `${size/2}px solid transparent`;
+                    confetti.style.borderRight = `${size/2}px solid transparent`;
+                    confetti.style.borderBottom = `${size}px solid ${color}`;
+                    confetti.style.backgroundColor = 'transparent';
+                }    decorationsContainer.appendChild(confetti);
+            }
+        }// Dancing text animation
+        function animateText(element) {
+            const text = element.textContent;
+            element.textContent = '';
+            
+            for (let i = 0; i < text.length; i++) {
+                const charSpan = document.createElement('span');
+                charSpan.textContent = text[i];
+                charSpan.className = 'dancing-text';
+                charSpan.style.setProperty('--char-index', i);
+                element.appendChild(charSpan);
+            }
+        }
+
+        // Initialize elements
+        document.addEventListener('DOMContentLoaded', () => {
+            createDecorations();
+            
+            const messageContainer = document.getElementById('messageContainer');
+            const initialMessage = document.getElementById('initialMessage');
+            const secondMessage = document.getElementById('secondMessage');
+            const enterButton = document.getElementById('enterButton');
+            const gifContainer = document.getElementById('gifContainer');
+            
+            // Animate the text
+            
+            
+            // Click handler for container
+            messageContainer.addEventListener('click', () => {
+                // Transition messages with GSAP
+                gsap.to(initialMessage, {
+                    opacity: 0,
+                    y: -30,
+                    scale: 0.8,
+                    duration: 0.8,
+                    ease: "back.out(1.7)",
+                    onComplete: () => {
+                        initialMessage.classList.add('hidden');
+                        secondMessage.classList.remove('hidden');
+                        gsap.fromTo(secondMessage, 
+                            {opacity: 0, y: 30, scale: 0.8},
+                            {opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "elastic.out(1, 0.75)"}
+                        );
+                        
+                        // Show the enter button
+                        gsap.to(enterButton, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 1,
+                            delay: 0.3,
+                            ease: "back.out(1.7)"
+                        });
+                        
+                        // Show the GIF container
+                        gsap.to(gifContainer, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 1,
+                            delay: 0.5,
+                            ease: "back.out(1.7)"
+                        });
+                    }
+                });
+                
+                // Create hearts animation
+                createHearts();
+                
+                // Add extra sparkles
+                createSparkles();
+            });
+            
+            // Heartbeat animation for button
+            enterButton.addEventListener('mouseenter', () => {
+                gsap.to(enterButton, {
+                    scale: 1.1,
+                    duration: 0.5,
+                    repeat: 1,
+                    yoyo: true,
+                    ease: "elastic.out(1.2, 0.5)"
+                });
+                
+                // Create small burst of hearts
+                createHeartBurst(enterButton);
+            });
+            
+            // Create hearts effect
+            function createHearts() {
+                const emojis = ['❤️', '💖', '💕', '💓', '💗', '💘', '💝', '💞', '💌'];
+                
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+                        heart.innerHTML = randomEmoji;
+                        heart.classList.add('heart');
+                        heart.style.fontSize = `${Math.random() * 30 + 15}px`;
+                        
+                        // Position around the container
+                        const containerRect = messageContainer.getBoundingClientRect();
+                        const startX = containerRect.x + Math.random() * containerRect.width;
+                        const startY = containerRect.y + containerRect.height;
+                        
+                        heart.style.left = `${startX}px`;
+                        heart.style.top = `${startY}px`;
+                        
+                        document.body.appendChild(heart);// Animate the heart
+                        gsap.to(heart, {
+                            y: -200 - Math.random() * 150,
+                            x: (Math.random() - 0.5) * 150,
+                            opacity: 0,
+                            rotation: Math.random() * 180 - 90,
+                            duration: 3 + Math.random() * 3,
+                            ease: "power1.out",
+                            onComplete: () => {
+                                heart.remove();
+                            }
+                        });
+                        
+                        gsap.to(heart, {
+                            scale: 0.5,
+                            duration: 2.5,
+                            ease: "power1.in"
+                        });
+                    }, i * 100);
+                }
+            }
+                           // Create sparkles
+            function createSparkles() {
+                const sparkleEmojis = ['✨', '⭐', '🌟', '💫', '🔸', '🔆'];
+                
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        const sparkle = document.createElement('div');
+                        const randomEmoji = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+                        sparkle.innerHTML = randomEmoji;
+                        sparkle.classList.add('heart'); // Reuse the heart class for animation
+                        sparkle.style.fontSize = `${Math.random() * 25 + 10}px`;
+                        
+                        // Position randomly on screen
+                        const startX = Math.random() * window.innerWidth;
+                        const startY = Math.random() * window.innerHeight;
+                        
+                        sparkle.style.left = `${startX}px`;
+                        sparkle.style.top = `${startY}px`;
+                        
+                        document.body.appendChild(sparkle);
+                        
+                        // Animate the sparkle
+                        gsap.to(sparkle, {
+                            y: (Math.random() - 0.5) * 200,
+                            x: (Math.random() - 0.5) * 200,
+                            opacity: 0,
+                            rotation: Math.random() * 360,
+                            scale: 2,
+                            duration: 2 + Math.random() * 2,
+                            ease: "power1.out",
+                            onComplete: () => {
+                                sparkle.remove();
+                            }
+                        });
+                    }, i * 200);
+                }
+            }
+            
+            // Create heart burst around element
+            function createHeartBurst(element) {
+                const emojis = ['❤️', '💖', '💕', '💓'];
+                const rect = element.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                for (let i = 0; i < 8; i++) {
+                    const heart = document.createElement('div');
+                    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+                    heart.innerHTML = randomEmoji;
+                    heart.classList.add('heart');
+                    heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+                    
+                    heart.style.left = `${centerX}px`;
+                    heart.style.top = `${centerY}px`;
+                    
+                    document.body.appendChild(heart);
+                    
+                    // Calculate angle for circular burst
+                    const angle = (i / 8) * Math.PI * 2;
+                    const distance = 100;
+                    const targetX = Math.cos(angle) * distance;
+                    const targetY = Math.sin(angle) * distance;
+                    
+                    // Animate the heart in a circular burst
+                    gsap.to(heart, {
+                        x: targetX,
+                        y: targetY,
+                        opacity: 0,
+                        duration: 1.5,
+                        ease: "power2.out",
+                        onComplete: () => {
+                            heart.remove();
+                        }
+                    });
+                }
+            }// Enter button click effect
+            enterButton.addEventListener('click', () => {
+                // You can redirect to the main birthday page here
+             window.location.href = "birthday.html";
+                
+                // For demonstration, we'll just add a celebratory effect
+                gsap.to(document.body, {
+                    backgroundColor: "#ffd6e0",
+                    duration: 0.5,
+                    yoyo: true,
+                    repeat: 1
+                });
+                
+                // Zoom effect on GIF
+                gsap.to(gifContainer, {
+                    scale: 1.2,
+                    duration: 0.8,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: "elastic.out(1, 0.3)"
+                });
+                
+                // Massive heart explosion
+                for (let i = 0; i < 3; i++) {
+                    setTimeout(() => {
+                        createHearts();
+                        createSparkles();
+                    }, i * 500);
+                }
+            });
+            
+            // Initialize with hidden elements
+            gsap.set(enterButton, {opacity: 0, y: 20});
+            gsap.set(gifContainer, {opacity: 0, y: 20});
+            
+            // Initialize particle system
+            initParticles();
+        });
+        
+        // Initialize particles in background
+        function initParticles() {
+            const container = document.getElementById('canvas-container');
+            
+            // Create Three.js scene
+            const scene = new THREE.Scene();
+            
+            // Camera
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+            
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0);
+            container.appendChild(renderer.domElement);
+            
+            // Create particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 200;
+            
+            const posArray = new Float32Array(particlesCount * 3);
+            
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 10;
+            }
+            
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
+            // Materials
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.05,
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.8
+            });
+                         // Mesh
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+            
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                particlesMesh.rotation.x += 0.0005;
+                particlesMesh.rotation.y += 0.0005;
+                
+                // Mouse move effect can be added here
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            
+            // Add mousemove effect for particles
+            document.addEventListener('mousemove', (event) => {
+                const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+                
+                gsap.to(particlesMesh.rotation, {
+                    x: mouseY * 0.2,
+                    y: mouseX * 0.2,
+                    duration: 2
+                });
+            });
+        }        // Function to create fireworks when celebration starts
+        function createFireworks() {
+            const emojis = ['🎉', '✨', '💫', '⭐', '🎊', '🌟'];
+            const fireworksCount = 8;
+            
+            for (let i = 0; i < fireworksCount; i++) {
+                setTimeout(() => {
+                    // Create firework origin point
+                    const startX = Math.random() * window.innerWidth;
+                    const startY = window.innerHeight + 50;
+                    
+                    // Create the main firework
+                    const firework = document.createElement('div');
+                    firework.innerHTML = '🔸';
+                    firework.classList.add('heart'); // Reuse heart class for animation
+                    firework.style.fontSize = '20px';
+                    firework.style.left = `${startX}px`;
+                    firework.style.top = `${startY}px`;
+                    document.body.appendChild(firework);
+                    
+                    // Animate the firework going up
+                    gsap.to(firework, {
+                        y: -window.innerHeight * (0.3 + Math.random() * 0.5),
+                        duration: 1.5,
+                        ease: "power2.out",
+                        onComplete: () => {
+                            firework.remove();
+                            
+                            // Create explosion
+                            createExplosion(startX, startY - window.innerHeight * (0.3 + Math.random() * 0.5));
+                        }
+                    });
+                }, i * 800);
+            }
+        }// Function to create explosion particles
+        function createExplosion(x, y) {
+            const emojis = ['✨', '💫', '⭐', '🌟', '❤️', '💖', '💕'];
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+                particle.innerHTML = randomEmoji;
+                particle.classList.add('heart');
+                particle.style.fontSize = `${Math.random() * 15 + 10}px`;
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                document.body.appendChild(particle);
+                
+                // Calculate angle for circular explosion
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 100 + Math.random() * 150;
+                const targetX = Math.cos(angle) * distance;
+                const targetY = Math.sin(angle) * distance;
+                
+                // Animate the particle in explosion
+                gsap.to(particle, {
+                    x: targetX,
+                    y: targetY,
+                    opacity: 0,
+                    scale: 0.5,
+                    duration: 2,
+                    ease: "power3.out",
+                    onComplete: () => {
+                        particle.remove();
+                    }
+                });
+            }
+        }
+        
+        // Event listener for "Celebrate With Me" button
+        document.getElementById('enterButton').addEventListener('click', () => {
+            // Create fireworks
+            createFireworks();
+            
+            // Change background animation
+            gsap.to('body', {
+                backgroundSize: '200% 200%',
+                duration: 5,
+                ease: "sine.inOut"
+            });
+            
+            // Apply celebratory effect to all elements
+            gsap.to('.glass-container', {
+                boxShadow: '0 8px 32px 0 rgba(255, 61, 127, 0.4), inset 0 0 30px rgba(255, 255, 255, 0.5)',
+                borderColor: 'rgba(255, 255, 255, 0.8)',
+                duration: 1,
+                repeat: 3,
+                yoyo: true
+            });
+            
+            // Create a birthday message
+            setTimeout(() => {
+                const birthdayMessage = document.createElement('div');
+                birthdayMessage.classList.add('glass-container');
+                birthdayMessage.style.opacity = '0';
+                birthdayMessage.style.transform = 'scale(0.8)';
+                birthdayMessage.style.margin = '2rem 0';
+                birthdayMessage.innerHTML = `
+                    <div class="birthday-crown">🎂</div>
+                    <p class="message" style="color: #f91880; font-size: 2.5rem;"> I miss you </p>
+                    <p style="font-family: 'Montserrat', sans-serif; color: #444; margin-top: 1rem;">
+                        You have no idea how many years I've been waiting for your 18th birthday.
+                    </p>
+                `;
+                
+                // Add it after the gif container
+                document.getElementById('gifContainer').after(birthdayMessage);
+                
+                // Animate it in
+                gsap.to(birthdayMessage, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 1,
+                    ease: "elastic.out(1, 0.5)"
+                });
+                
+                // Animate the text inside
+                setTimeout(() => {
+                    animateText(birthdayMessage.querySelector('.message'));
+                }, 1000);
+            }, 2000);
+        });
+        
+    </script>
+
+</body>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
