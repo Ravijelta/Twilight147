@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Barthday wish</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  
+  <link rel="style.page" href="style.css" title="asthetic" />
+  
+  <!-- HTML -->
+  
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  
+       <canvas id="confetti-canvas"></canvas>
+  
+  <!-- ===== AMBIENT BACKGROUND ORBS ===== -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+  
+  <!-- ===== AUDIO TOGGLE ===== -->
+  <button class="audio-btn" id="audioBtn" aria-label="Toggle music" title="Toggle music">
+    <span class="audio-icon">♪</span>
+    <span class="audio-label">Music</span>
+  </button>
+  
+  <!-- ===== LOCK NOTICE (shown when a choice is already made) ===== -->
+  
+  <div class="lock-notice" id="lockNotice" hidden>
+    You've already chosen your path 💭
+  </div>
+  
+      
+      
+      <!---- section 1 ----->
+      
+  <section class="section landing" id="landing">
+    
+    <!-- Floating petals -->
+    <div class="petals" aria-hidden="true" id="petals"></div>
+    
+    <div class="landing-content">
+      <p class="pre-title">For the person who made me feel emotions I never knew before</p>
+      <h1 class="hero-title">
+        <span class="word w1">Happy</span>
+        <span class="word w2">Birthday</span>
+      </h1>
+      <p class="hero-sub">A moment made just for you.<br />
+        <br />Happy birthday to you, Sandhya.
+        <br />
+        
+         Umm. sach batau to kya kahu kuch samjh nhi aa raha. question bahut sare hai man me ho sakta hai apke man me bhi ho par.. kya me kuch galat kar raha hu?
+         
+        <br /><br />
+        
+        Me nhi janta apko ye kab pata chala shayad 17th barthday jab mene apko  wish kiya. Me nhi karna chahta tha par jo hona tha ho gya last din.No preparation, nothing else... I still don't know why I did this. 
+        
+        
+        <br />
+         Apko kya lagta tha kya me darta tha?   Maybe 'yes' Maybe 'not' Me hamesha se ladkiyo se nafrat karta tha. Kyuki unke pass option bahut sare hai. har ladkiyan eska fayda hi uthati hai. Shayad!
+        
+        
+        
+        
+        <br />
+        <br />
+        Me apni teen age me asi koi bhi galti nhi karna chahta tha jisse me emotionally tut jau esliye mene hamesha ese attraction hi kha. or hai agar ye attraction mere 18th barthday tak raha to khene ki bhi sochi thi.
+        
+        
+        
+        
+        <br />
+        Mene kha bhi or jo mene hamesha se socha vo hi hui.
+        
+        
+        
+        
+        <br /><br />
+        
+        Apke man me na feeling thi or na hi ayi gi. shayad me us layak hi nhi hu par jo bhi hai. mene socha tha apke barthday par ache se sab khe kar last good by kahunga par apne sab kharab kar diya. Me apni chhoti se chhoti baat apse share karna chahta tha But.
+        
+      <br /> <br />
+        
+         par ab vo baat karne ka man nhi raha. fir bhi agar ap chahte ho me face to face baat karu es bare me to batana mujhe.
+      
+      <br /><br />
+      Once again, happiest birthday to you!  & Apna khayal rakhna "cutie pie". 
+         
+      
+      </p>
+      
+      <!-- CHOICE CARDS -->
+      <div class="choices" id="choicesGrid">
+        
+        <button class="choice-card" data-choice="secret" id="btn-secret">
+          <div class="card-glyph">🔐</div>
+          <h2 class="card-title">Secret</h2>
+          <p class="card-hint">Something only you should know!!</p>
+          <div class="card-shimmer"></div>
+        </button>
+        
+    <button class="choice-card" data-choice="memory" id="btn-memory">
+  <a href="index3.html">
+      
+      
+          <div class="card-glyph">
+            🎞</div>
+          <h2 class="card-title">Memory</h2>
+          <p class="card-hint"> Sorry for everything!</p></p></p>
+          <div class="card-shimmer"></div>
+        </button>
+      
+        
+      </div><!-- /choices -->
+    </div><!-- /landing-content -->
+  </section>
+            
+
+    <!-- ===== HIDDEN AUDIO ===== -->
+  <!--
+    Drop an MP3 file named "birthday.mp3" in the same folder and it will play.
+    We reference it but don't autoplay.
+  -->
+  
+  <audio id="bgAudio" loop preload="none">
+    <source src="birthday.mp3" type="audio/mpeg" />
+  </audio>
+  
+  
+    
+  <!-- Project -->
+  <script src="main.js"></script>
+</body>
+</html>
